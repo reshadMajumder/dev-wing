@@ -1,0 +1,92 @@
+.tree-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding-bottom: 20px; /* Add some space for the scrollbar */
+}
+
+.level {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  position: relative;
+  min-width: max-content; /* Ensure the level doesn't wrap */
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0 20px;
+}
+
+/* Draw lines */
+.node::before, .node::after {
+  content: '';
+  position: absolute;
+  background-color: #4a00e0;
+}
+
+/* Horizontal line */
+.level > .node::before {
+  height: 2px;
+  width: 100%;
+  top: -25px;
+  left: 0;
+}
+
+.level > .node:first-child::before {
+  left: 50%;
+  width: 50%;
+}
+
+.level > .node:last-child::before {
+  width: 50%;
+}
+
+/* Vertical line */
+.node::after {
+  height: 25px;
+  width: 2px;
+  top: -25px;
+  left: 50%;
+}
+
+.level:first-child > .node::after {
+    display: none;
+}
+
+/* Connector from parent */
+.level > .node:first-child:not(:only-child)::before {
+  border-top-left-radius: 10px;
+}
+
+.level > .node:last-child:not(:only-child)::before {
+  border-top-right-radius: 10px;
+}
+
+/* Zoom out executive levels to fit more members */
+.tree-container > .level:nth-child(n+3) .node {
+  transform: scale(0.8);
+}
+
+/* Adjust line positions for scaled nodes to reduce the gap */
+.tree-container > .level:nth-child(n+3) .node::before, /* horizontal line */
+.tree-container > .level:nth-child(n+3) .node::after {  /* vertical line */
+  top: -15px; /* Original was -25px. Move lines 10px down */
+}
+
+/* Adjust vertical line height for scaled nodes */
+.tree-container > .level:nth-child(n+3) .node::after {
+  height: 15px; /* Original was 25px */
+}
+
+/* Adjust spacing between levels to account for scaling */
+.tree-container > .level:nth-child(2),
+.tree-container > .level:nth-child(3),
+.tree-container > .level:nth-child(4) {
+  margin-bottom: 20px; /* Original was 50px */
+}

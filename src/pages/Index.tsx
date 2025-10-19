@@ -6,8 +6,9 @@ import StatCard from '@/components/StatCard';
 import Navigation from '@/components/Navigation';
 import SplitText from '@/components/SplitTextProps';
 import DecryptedText from '@/components/SplitTextProps';
-import Threads from '@/components/Threads'
+import Members from '@/components/Members';
 import { ArrowRight, Users, Code, Rocket } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 export default function Index() {
   return (
@@ -74,10 +75,9 @@ export default function Index() {
       {/* Stats Section */}
       <section className="relative py-20 px-4 z-10">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto ">
-            <StatCard value="50+" label="Active Members" delay={100} />
-            <StatCard value="25+" label="Projects Completed" delay={200} />
-            <StatCard value="∞" label="Opportunities" delay={300} />
+          <div className="grid grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <StatCard value="∞" label="Opportunities" delay={100} />
+            <StatCard value="∞" label="Connections" delay={200} />
           </div>
         </div>
       </section>
@@ -90,7 +90,7 @@ export default function Index() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="glass-card p-8 space-y-4 hover:scale-105 transition-transform animate-slide-in cursor-target">
+            <div className="bg-background/80 rounded-lg p-8 space-y-4 hover:scale-105 transition-transform animate-slide-in cursor-target">
               <Users className="w-12 h-12 text-primary" />
               <h3 className="text-2xl font-bold text-foreground">Community</h3>
               <p className="text-muted-foreground">
@@ -98,7 +98,7 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="glass-card p-8 space-y-4 hover:scale-105 transition-transform animate-slide-in cursor-target" style={{ animationDelay: '100ms' }}>
+            <div className="bg-background/80 rounded-lg p-8 space-y-4 hover:scale-105 transition-transform animate-slide-in cursor-target" style={{ animationDelay: '100ms' }}>
               <Code className="w-12 h-12 text-accent" />
               <h3 className="text-2xl font-bold text-foreground">Projects</h3>
               <p className="text-muted-foreground">
@@ -106,7 +106,7 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="glass-card p-8 space-y-4 hover:scale-105 transition-transform animate-slide-in cursor-target" style={{ animationDelay: '200ms' }}>
+            <div className="bg-background/80 rounded-lg p-8 space-y-4 hover:scale-105 transition-transform animate-slide-in cursor-target" style={{ animationDelay: '200ms' }}>
               <Rocket className="w-12 h-12 text-primary" />
               <h3 className="text-2xl font-bold text-foreground">Growth</h3>
               <p className="text-muted-foreground">
@@ -117,6 +117,8 @@ export default function Index() {
           </div>
         </div>
       </section>
+      <Members />
+      <Footer />
     </div>
   );
 }

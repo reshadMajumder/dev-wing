@@ -15,7 +15,7 @@ export default function Navigation() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-0 border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group cursor-target">
@@ -40,7 +40,7 @@ export default function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden glass-button cursor-target p-2"
+            className="md:hidden cursor-target p-2"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -49,7 +49,7 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-3 animate-fade-in ">
+          <div className="md:hidden mt-4 pb-4 space-y-3 animate-fade-in bg-background/90 backdrop-blur-sm rounded-lg p-4">
             {links.map((link) => (
               <Link
                 key={link.path}

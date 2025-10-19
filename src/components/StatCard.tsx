@@ -1,19 +1,24 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+
 interface StatCardProps {
   value: string;
   label: string;
-  delay?: number;
+  delay: number;
 }
 
-export default function StatCard({ value, label, delay = 0 }: StatCardProps) {
+const StatCard: React.FC<StatCardProps> = ({ value, label, delay }) => {
   return (
-    <div
-      className="glass-card p-6 text-center animate-fade-in cursor-target"
-      style={{ animationDelay: `${delay}ms` }}
+    <motion.div
+      className="text-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: delay / 1000 }}
     >
-      <div className="text-4xl md:text-5xl font-bold gradient-text mb-2 animate-glow">
-        {value}
-      </div>
-      <div className="text-muted-foreground text-sm">{label}</div>
-    </div>
+      <p className="text-5xl font-bold gradient-text">{value}</p>
+      <p className="text-muted-foreground">{label}</p>
+    </motion.div>
   );
-}
+};
+
+export default StatCard;

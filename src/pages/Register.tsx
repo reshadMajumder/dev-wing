@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { UserPlus } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 const positions = [
   'Senior Deputy',
@@ -69,21 +70,54 @@ export default function Register() {
 
   const onSubmit = async (data: RegistrationForm) => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log('Registration data:', data);
-    
-    toast({
-      title: 'Registration Successful!',
-      description: 'Welcome to the Development Wing. We will contact you soon via email.',
-    });
-    
-    reset();
-    setSelectedPositions([]);
-    setIsSubmitting(false);
+
+    const apiData = {
+      full_name: data.fullName,
+      student_id: data.studentId,
+      department: data.department,
+      batch: data.batch,
+      position: data.positions.join(', '), // Convert array to comma-separated string
+      email: data.email,
+      technical_skills: data.technicalSkills,
+      programming_tools: data.programmingTools,
+      motivation: data.motivation,
+      experience: data.experience || '',
+      photo_link: data.photoLink,
+      cv_link: data.cvLink || '',
+    };
+
+    try {
+      const response = await fetch('https://self-made-devs-api.vercel.app/api/dev-wing/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(apiData),
+      });
+
+      if (!response.ok) {
+        const errorResult = await response.json().catch(() => ({ detail: 'An unknown error occurred.' }));
+        throw new Error(errorResult.detail || `Server error: ${response.status}`);
+      }
+
+      toast({
+        title: 'Registration Successful!',
+        description: 'Welcome to the Development Wing. We will contact you soon via email.',
+      });
+
+      reset();
+      setSelectedPositions([]);
+    } catch (error) {
+      toast({
+        title: 'Registration Failed',
+        description: error instanceof Error ? error.message : 'An unknown error occurred. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   return (
     <div className="min-h-screen relative">
@@ -359,6 +393,7 @@ export default function Register() {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
