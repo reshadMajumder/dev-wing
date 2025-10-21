@@ -18,12 +18,12 @@ const App = () => (
       <Toaster />
       <Sonner />
       <TargetCursor spinDuration={2} hideDefaultCursor={true} />
-      <BrowserRouter>
+      <BrowserRouter> 
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/members" element={<Members />} />
+          {/* <Route path="/members" element={<Members />} /> */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
