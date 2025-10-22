@@ -62,7 +62,11 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: radial-gradient(ellipse at top, hsl(240 10% 8%), hsl(240 10% 3%));
+    background: radial-gradient(
+      ellipse at top,
+      hsl(240 10% 8%),
+      hsl(240 10% 3%)
+    );
     min-height: 100vh;
   }
 }

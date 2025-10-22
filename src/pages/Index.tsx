@@ -62,12 +62,13 @@ export default function Index() {
               </Link>
             </div>
             <div className="font-bold">Powered by </div>
-            <div className="flex items-center justify-center">
-              <img
-                className="bg-white rounded-xl h-16 "
-                src="public/dept-logo.png"
-                alt=""
-              />
+            <div className="flexrounded-lg w-40 mx-auto bg-white rounded-lg ">
+              <a href="https://ibb.co.com/rR0ZrjwG" >
+                <img
+                  src="https://i.ibb.co.com/JwtzJ1sR/dept-logo-2.png"
+                  alt="dept-logo-2"
+                />
+              </a>
             </div>
           </div>
         </div>
