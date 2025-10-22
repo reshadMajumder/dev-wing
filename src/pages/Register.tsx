@@ -1,40 +1,61 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import Navigation from '@/components/Navigation';
-import StarField from '@/components/StarField';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
-import { UserPlus } from 'lucide-react';
-import Footer from '@/components/Footer';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import Navigation from "@/components/Navigation";
+import StarField from "@/components/StarField";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+import { UserPlus } from "lucide-react";
+import Footer from "@/components/Footer";
 
 const positions = [
-  'Senior Deputy',
-  'Deputy',
-  'Junior Deputy',
-  'Senior Executive',
-  'Executive',
-  'Junior Executive',
+  "Senior Deputy",
+  "Deputy",
+  "Junior Deputy",
+  "Senior Executive",
+  "Executive",
+  "Junior Executive",
 ] as const;
 
 const registrationSchema = z.object({
-  fullName: z.string().trim().min(2, 'Full name is required').max(100),
-  studentId: z.string().trim().min(1, 'Student ID is required').max(50),
-  department: z.string().trim().min(1, 'Department is required').max(100),
-  batch: z.string().trim().min(1, 'Batch is required').max(50),
-  positions: z.array(z.string()).min(1, 'Please select at least one position'),
-  email: z.string().trim().email('Invalid email address').max(255),
-  technicalSkills: z.string().trim().min(10, 'Please describe your technical skills').max(500),
-  programmingTools: z.string().trim().min(10, 'Please list your programming languages/frameworks/tools').max(500),
-  motivation: z.string().trim().min(20, 'Please share your motivation (at least 20 characters)').max(1000),
+  fullName: z.string().trim().min(2, "Full name is required").max(100),
+  studentId: z.string().trim().min(1, "Student ID is required").max(50),
+  department: z.string().trim().min(1, "Department is required").max(100),
+  batch: z.string().trim().min(1, "Batch is required").max(50),
+  positions: z.array(z.string()).min(1, "Please select at least one position"),
+  email: z.string().trim().email("Invalid email address").max(255),
+  technicalSkills: z
+    .string()
+    .trim()
+    .min(10, "Please describe your technical skills")
+    .max(500),
+  programmingTools: z
+    .string()
+    .trim()
+    .min(10, "Please list your programming languages/frameworks/tools")
+    .max(500),
+  motivation: z
+    .string()
+    .trim()
+    .min(20, "Please share your motivation (at least 20 characters)")
+    .max(1000),
   experience: z.string().trim().max(1000).optional(),
-  photoLink: z.string().trim().url('Please provide a valid Google Drive link').min(1, 'Photo link is required'),
-  cvLink: z.string().trim().url('Please provide a valid link').optional().or(z.literal('')),
+  photoLink: z
+    .string()
+    .trim()
+    .url("Please provide a valid Google Drive link")
+    .min(1, "Photo link is required"),
+  cvLink: z
+    .string()
+    .trim()
+    .url("Please provide a valid link")
+    .optional()
+    .or(z.literal("")),
 });
 
 type RegistrationForm = z.infer<typeof registrationSchema>;
@@ -65,7 +86,7 @@ export default function Register() {
       updatedPositions = selectedPositions.filter((p) => p !== position);
     }
     setSelectedPositions(updatedPositions);
-    setValue('positions', updatedPositions, { shouldValidate: true });
+    setValue("positions", updatedPositions, { shouldValidate: true });
   };
 
   const onSubmit = async (data: RegistrationForm) => {
@@ -76,48 +97,58 @@ export default function Register() {
       student_id: data.studentId,
       department: data.department,
       batch: data.batch,
-      position: data.positions.join(', '), // Convert array to comma-separated string
+      position: data.positions.join(", "), // Convert array to comma-separated string
       email: data.email,
       technical_skills: data.technicalSkills,
       programming_tools: data.programmingTools,
       motivation: data.motivation,
-      experience: data.experience || '',
+      experience: data.experience || "",
       photo_link: data.photoLink,
-      cv_link: data.cvLink || '',
+      cv_link: data.cvLink || "",
     };
 
     try {
-      const response = await fetch('https://self-made-devs-api.vercel.app/api/dev-wing/register/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(apiData),
-      });
+      const response = await fetch(
+        "https://self-made-devs-api.vercel.app/api/dev-wing/register/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiData),
+        }
+      );
 
       if (!response.ok) {
-        const errorResult = await response.json().catch(() => ({ detail: 'An unknown error occurred.' }));
-        throw new Error(errorResult.detail || `Server error: ${response.status}`);
+        const errorResult = await response
+          .json()
+          .catch(() => ({ detail: "An unknown error occurred." }));
+        throw new Error(
+          errorResult.detail || `Server error: ${response.status}`
+        );
       }
 
       toast({
-        title: 'Registration Successful!',
-        description: 'Welcome to the Development Wing. We will contact you soon via email.',
+        title: "Registration Successful!",
+        description:
+          "Welcome to the Development Wing. We will contact you soon via email.",
       });
 
       reset();
       setSelectedPositions([]);
     } catch (error) {
       toast({
-        title: 'Registration Failed',
-        description: error instanceof Error ? error.message : 'An unknown error occurred. Please try again.',
-        variant: 'destructive',
+        title: "Registration Failed",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unknown error occurred. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
 
   return (
     <div className="min-h-screen relative">
@@ -133,14 +164,20 @@ export default function Register() {
               Development Wing Recruitment
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              We are looking for <strong>enthusiastic and passionate students</strong> to join as{' '}
-              <strong>Deputies and Executives</strong> for the <strong>Development Wing</strong> under
-              the <strong>Software Engineering Club</strong>.
+              We are looking for{" "}
+              <strong>enthusiastic and passionate students</strong> to join as{" "}
+              <strong>Deputies and Executives</strong> for the{" "}
+              <strong>Development Wing</strong> under the{" "}
+              <strong>Software Engineering Club</strong>.
             </p>
             <p className="text-muted-foreground max-w-3xl mx-auto">
-              If you are passionate about <strong>coding, building real-world projects, learning new
-              technologies, and teamwork</strong>, this is your chance to grow as a developer and
-              contribute to impactful projects led by our club.
+              If you are passionate about{" "}
+              <strong>
+                coding, building real-world projects, learning new technologies,
+                and teamwork
+              </strong>
+              , this is your chance to grow as a developer and contribute to
+              impactful projects led by our club.
             </p>
           </div>
 
@@ -156,12 +193,14 @@ export default function Register() {
               </Label>
               <Input
                 id="fullName"
-                {...register('fullName')}
+                {...register("fullName")}
                 placeholder="Enter your full name"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.fullName && (
-                <p className="text-destructive text-sm">{errors.fullName.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.fullName.message}
+                </p>
               )}
             </div>
 
@@ -172,12 +211,14 @@ export default function Register() {
               </Label>
               <Input
                 id="studentId"
-                {...register('studentId')}
+                {...register("studentId")}
                 placeholder="Enter your student ID"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.studentId && (
-                <p className="text-destructive text-sm">{errors.studentId.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.studentId.message}
+                </p>
               )}
             </div>
 
@@ -188,12 +229,14 @@ export default function Register() {
               </Label>
               <Input
                 id="department"
-                {...register('department')}
-                placeholder="e.g., Computer Science, Software Engineering"
+                {...register("department")}
+                placeholder="e.g. Software Engineering"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.department && (
-                <p className="text-destructive text-sm">{errors.department.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.department.message}
+                </p>
               )}
             </div>
 
@@ -204,19 +247,22 @@ export default function Register() {
               </Label>
               <Input
                 id="batch"
-                {...register('batch')}
-                placeholder="e.g., 2024, Fall 2023"
+                {...register("batch")}
+                placeholder="e.g. 41, 42, 43, 44"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.batch && (
-                <p className="text-destructive text-sm">{errors.batch.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.batch.message}
+                </p>
               )}
             </div>
 
             {/* Position */}
             <div className="space-y-3">
               <Label className="text-foreground">
-                Position you want to apply for <span className="text-destructive">*</span>
+                Position you want to apply for{" "}
+                <span className="text-destructive">*</span>
               </Label>
               <div className="space-y-3 glass-card p-4">
                 {positions.map((position) => (
@@ -239,7 +285,9 @@ export default function Register() {
                 ))}
               </div>
               {errors.positions && (
-                <p className="text-destructive text-sm">{errors.positions.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.positions.message}
+                </p>
               )}
             </div>
 
@@ -251,62 +299,68 @@ export default function Register() {
               <Input
                 id="email"
                 type="email"
-                {...register('email')}
-                placeholder="your.email@university.edu"
+                {...register("email")}
+                placeholder="251-35-***@diu.edu.bd"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.email && (
-                <p className="text-destructive text-sm">{errors.email.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
             {/* Technical Skills */}
             <div className="space-y-2">
               <Label htmlFor="technicalSkills" className="text-foreground">
-                What are your technical skills or areas of expertise?{' '}
+                What are your technical skills or areas of expertise?{" "}
                 <span className="text-destructive">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
-                (e.g., Frontend, Backend, UI/UX, Machine Learning, Mobile App Development, DevOps,
-                etc.)
+                (e.g., Frontend, Backend, UI/UX, Machine Learning, Mobile App
+                Development, DevOps, etc.)
               </p>
               <Textarea
                 id="technicalSkills"
-                {...register('technicalSkills')}
+                {...register("technicalSkills")}
                 placeholder="Describe your technical skills and areas of expertise..."
                 rows={4}
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.technicalSkills && (
-                <p className="text-destructive text-sm">{errors.technicalSkills.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.technicalSkills.message}
+                </p>
               )}
             </div>
 
             {/* Programming Tools */}
             <div className="space-y-2">
               <Label htmlFor="programmingTools" className="text-foreground">
-                What programming languages, frameworks, or tools are you comfortable with?{' '}
-                <span className="text-destructive">*</span>
+                What programming languages, frameworks, or tools are you
+                comfortable with? <span className="text-destructive">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
                 (List any that you've used or are currently learning)
               </p>
               <Textarea
                 id="programmingTools"
-                {...register('programmingTools')}
+                {...register("programmingTools")}
                 placeholder="e.g., React, Python, TypeScript, Node.js, Docker, MongoDB..."
                 rows={4}
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.programmingTools && (
-                <p className="text-destructive text-sm">{errors.programmingTools.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.programmingTools.message}
+                </p>
               )}
             </div>
 
             {/* Motivation */}
             <div className="space-y-2">
               <Label htmlFor="motivation" className="text-foreground">
-                Why do you want to be part of the Development Wing?{' '}
+                Why do you want to be part of the Development Wing?{" "}
                 <span className="text-destructive">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
@@ -314,33 +368,38 @@ export default function Register() {
               </p>
               <Textarea
                 id="motivation"
-                {...register('motivation')}
+                {...register("motivation")}
                 placeholder="Tell us about your passion for development and what you hope to achieve..."
                 rows={5}
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.motivation && (
-                <p className="text-destructive text-sm">{errors.motivation.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.motivation.message}
+                </p>
               )}
             </div>
 
             {/* Experience */}
             <div className="space-y-2">
               <Label htmlFor="experience" className="text-foreground">
-                Do you have any experience in software development, hackathons, or projects?
+                Do you have any experience in software development, hackathons,
+                or projects?
               </Label>
               <p className="text-sm text-muted-foreground">
                 (If yes, briefly describe them or share GitHub/portfolio links)
               </p>
               <Textarea
                 id="experience"
-                {...register('experience')}
+                {...register("experience")}
                 placeholder="Share your experience, projects, or relevant links..."
                 rows={4}
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.experience && (
-                <p className="text-destructive text-sm">{errors.experience.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.experience.message}
+                </p>
               )}
             </div>
 
@@ -349,16 +408,20 @@ export default function Register() {
               <Label htmlFor="photoLink" className="text-foreground">
                 Upload Your Photo <span className="text-destructive">*</span>
               </Label>
-              <p className="text-sm text-muted-foreground">(Upload Google Drive link)</p>
+              <p className="text-sm text-muted-foreground">
+                (Upload Google Drive link)
+              </p>
               <Input
                 id="photoLink"
                 type="url"
-                {...register('photoLink')}
+                {...register("photoLink")}
                 placeholder="https://drive.google.com/..."
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.photoLink && (
-                <p className="text-destructive text-sm">{errors.photoLink.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.photoLink.message}
+                </p>
               )}
             </div>
 
@@ -373,12 +436,14 @@ export default function Register() {
               <Input
                 id="cvLink"
                 type="url"
-                {...register('cvLink')}
+                {...register("cvLink")}
                 placeholder="https://drive.google.com/... or https://portfolio.com"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.cvLink && (
-                <p className="text-destructive text-sm">{errors.cvLink.message}</p>
+                <p className="text-destructive text-sm">
+                  {errors.cvLink.message}
+                </p>
               )}
             </div>
 
@@ -388,7 +453,7 @@ export default function Register() {
               disabled={isSubmitting}
               className="w-full glass-button text-foreground text-lg py-6"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+              {isSubmitting ? "Submitting..." : "Submit Registration"}
             </Button>
           </form>
         </div>
