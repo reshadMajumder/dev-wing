@@ -42,11 +42,11 @@ export default function Index() {
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-              <DecryptedText text="Build yourself, By yourself. Join us in creating innovative solutions and pushing the boundaries of technology." />
+              <DecryptedText text="Welcome Mate, Join us in creating innovative solutions and pushing the boundaries of technology." />
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Link to="/register">
-                <Button size="lg" className="cursor-target">
+                <Button size="lg" className="cursor-target font-semibold">
                   Join the Journey
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -61,9 +61,19 @@ export default function Index() {
                 </Button>
               </Link>
             </div>
+            <div className="font-bold">Powered by </div>
+            <div className="flex items-center justify-center">
+              <img
+                className="bg-white rounded-xl h-16 "
+                src="public/dept-logo.png"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </section>
+
+      <section></section>
 
       {/* Stats Section */}
       <section className="relative py-20 px-4 z-10">

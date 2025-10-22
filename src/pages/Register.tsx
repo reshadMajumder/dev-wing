@@ -369,7 +369,7 @@ export default function Register() {
               <Textarea
                 id="motivation"
                 {...register("motivation")}
-                placeholder="Tell us about your passion for development and what you hope to achieve..."
+                placeholder="Please provide your genuine response. AI-generated answers may lead to disqualification."
                 rows={5}
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
@@ -428,7 +428,7 @@ export default function Register() {
             {/* CV/Portfolio Link */}
             <div className="space-y-2">
               <Label htmlFor="cvLink" className="text-foreground">
-                Your CV or Portfolio (optional)
+                Your CV or Portfolio (optional){" "}
               </Label>
               <p className="text-sm text-muted-foreground">
                 (Upload drive or portfolio link)
