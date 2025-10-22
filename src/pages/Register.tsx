@@ -212,7 +212,7 @@ export default function Register() {
               <Input
                 id="studentId"
                 {...register("studentId")}
-                placeholder="Enter your student ID"
+                placeholder="e.g. 251-35-***"
                 className="glass-button border-white/20 text-foreground placeholder:text-muted-foreground"
               />
               {errors.studentId && (
